@@ -1,0 +1,6 @@
+#!/bin/bash
+servers="srv1 srv2 srv3 srv4 srv5"
+for i in $servers
+  do
+  echo "0 1 * * * /root/test.sh" | ssh $i " tee -a /var/spool/cron/root"
+done
