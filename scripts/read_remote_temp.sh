@@ -13,6 +13,10 @@ fi
 # find the 't=XXXXX' pattern and cut everything before 3rd character i.e. 't='
 temp=$( echo $temp | grep  -E -o ".{0,0}t=.{0,5}" | cut -c 3-)
 temp1=$( echo "scale=2; $temp / 1000.0" | bc)
+logger -t $SYSLOG_TAG "Extracted value from $HOST: $temp1"
+if [[ -z "${temp1// }" ]]; then
+        temp1="U"
+fi
 echo "$temp1" > /home/pi/celsius/var/actual_temp
 logger -t $SYSLOG_TAG "Temperature at $HOST is $temp1"
 

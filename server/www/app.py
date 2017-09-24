@@ -39,7 +39,10 @@ def read_temperature(file):
 def read_temperature2():
   with  open('/home/pi/celsius/var/actual_temp') as fh:
     temp = fh.read()
-    return float(temp.strip())
+    if temp.strip()=='U':
+	return "--"
+    else:
+    	return "%.1f" % float(temp.strip())
   
 def read_cputemp():
   with  open('/home/pi/celsius/var/cpu_temp') as fh:
@@ -55,7 +58,7 @@ def data():
 @app.route('/')
 def index():
     print "In method index()"
-    return render_template('index.html', temperature="%.1f" % read_temperature2(), uptime=uptime(), cputemp=read_cputemp())
+    return render_template('index.html', temperature=read_temperature2(), uptime=uptime(), cputemp=read_cputemp())
 
 if __name__ == '__main__':
     print "Starting server ..."
