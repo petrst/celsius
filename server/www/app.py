@@ -37,7 +37,7 @@ def read_temperature(file):
 
 
 def read_temperature2():
-  with  open('/home/pi/celsius/var/actual_temp') as fh:
+  with  open('/home/pi/celsius/var/actual_temp2') as fh:
     temp = fh.read()
     if temp.strip()=='U':
 	return "--"

@@ -2,7 +2,7 @@
 
 HOST=192.168.2.250
 SYSLOG_TAG=celsius
-temp=$(ssh root@$HOST 'cat /sys/bus/w1/devices/28-000007dcdf59/w1_slave')
+temp=$(ssh root@$HOST 'cat /sys/bus/w1/devices/28-000007dcdf59/w1_slave' 2>&1)
 logger -t $SYSLOG_TAG "Received from $HOST: $temp"
 if [[ -z "${temp// }" ]]; then
 	logger -t $SYSLOG_TAG "Received empty string from $HOST. Will repeat in 1 sec"
@@ -34,7 +34,7 @@ HOST=192.168.137.2
 
 
 HOST=192.168.2.23
-temp=$(ssh pi@$HOST 'cat /sys/bus/w1/devices/28-000007dd3a83/w1_slave')
+temp=$(ssh pi@$HOST 'cat /sys/bus/w1/devices/28-000007dd3a83/w1_slave' 2>&1)
 logger -t $SYSLOG_TAG "Received from $HOST: $temp"
 # find the 't=XXXXX' pattern and cut everything before 3rd character i.e. 't='
 temp=$( echo $temp | grep  -E -o ".{0,0}t=.{0,5}" | cut -c 3-)
@@ -42,5 +42,6 @@ temp2=$( echo "scale=2; $temp / 1000.0" | bc)
 echo "$temp2" > /home/pi/celsius/var/actual_temp2
 logger -t $SYSLOG_TAG "Temperature at $HOST is $temp2"
 
+cpu_temp=$( cat /home/pi/celsius/var/cpu_temp)
 
-rrdtool update /media/usb/celsiusdb.rrd N:$temp1:$temp2::
+rrdtool update /media/usb/celsiusdb.rrd N:$temp1:$temp2::$cpu_temp

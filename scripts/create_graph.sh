@@ -2,12 +2,17 @@
 
 GRAPH_PATH=/home/pi/celsius/server/www/static
 
+BACK_COLOR=f6f6f6ff
+GRID_COLOR=a6a6a6
+FONT_COLOR=d00000
+
 rrdtool graph $GRAPH_PATH/temp.png -r \
 DEF:a=/media/usb/celsiusdb.rrd:temp1:AVERAGE:start=end-48h \
 DEF:b=/media/usb/celsiusdb.rrd:temp2:AVERAGE:start=end-48h \
---title "LAST 24H" \
-LINE1:a#ff0000 LINE1:b#00ff00 -g  --border 0 -m 2 \
--c BACK#f6f6f6 -c CANVAS#f6f6f6 -c ARROW#f6f6f6 -c GRID#d6d6d6 -c MGRID#d0d6d6 -c AXIS#d6d6d6 -c FONT#d0d0d0 \
+DEF:c=/media/usb/celsiusdb.rrd:temp3:AVERAGE:start=end-48h \
+--title "LAST 24H<" \
+LINE1:a#ff0000 LINE1:b#00ff00 LINE1:c#0000ff -g  --border 0 -m 2 \
+-c BACK#$BACK_COLOR -c CANVAS#$BACK_COLOR -c ARROW#$BACK_COLOR -c GRID#$GRID_COLOR -c MGRID#d0d6d6 -c AXIS#$GRID_COLOR -c FONT#$FONT_COLOR \
 --disable-rrdtool-tag --x-grid DAY:1:HOUR:4:HOUR:4:0:%Hh00 --y-grid 2:1
 
 rrdtool graph $GRAPH_PATH/temp7.png -r \
