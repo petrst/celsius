@@ -8,7 +8,7 @@ class MyFlask(Flask):
     def get_send_file_max_age(self, name):
         if name.lower().endswith('.png'):
             return 60*10
-        return flask.Flask.get_send_file_max_age(self, name)
+        return Flask.get_send_file_max_age(self, name)
 
 app = MyFlask(__name__)
 

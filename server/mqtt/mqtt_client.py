@@ -3,15 +3,13 @@ import paho.mqtt.client as mqtt
 from rrdtool import update as rrd_update
 
 TOPIC="home/temp"
-RRD_DB="/media/usb/celsiusdb.rrd"
+RRD_DB="/media/usb/celsius3.rrd"
 
 def update_rrd(value):
-	ret = rrd_update(RRD_DB, 'N:::%s:' % value);
-
+    ret = rrd_update(RRD_DB, 'N:%s' % value);
 
 def on_connect(client, userdata, flags, rc):
     syslog("Connected to MQTT broker with result code "+str(rc))
-
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     client.subscribe(TOPIC)
