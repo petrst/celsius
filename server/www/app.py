@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, send_file, jsonify
 from uptime import uptime
 import sys
 import logging
@@ -35,6 +35,13 @@ def read_temperature(file):
     return temp
   return ERROR_TEMP
 
+def read_temperature1():
+  with  open('/home/pi/celsius/var/actual_temp') as fh:
+    temp = fh.read()
+    if temp.strip()=='U':
+	return "--"
+    else:
+    	return float(temp.strip())
 
 def read_temperature2():
   with  open('/home/pi/celsius/var/actual_temp2') as fh:
@@ -42,19 +49,37 @@ def read_temperature2():
     if temp.strip()=='U':
 	return "--"
     else:
-    	return "%.1f" % float(temp.strip())
+    	return float(temp.strip())
   
 def read_cputemp():
   with  open('/home/pi/celsius/var/cpu_temp') as fh:
     temp = fh.read()
     return float(temp.strip())
   
+@app.route('/cpu')
+def cpu_temp():
+    return "%.1f" % read_cputemp()
 
+@app.route('/in')
+def in_temp():
+    return "%.1f" % read_temperature1()
+
+@app.route('/out')
+def out_temp():
+    return "%.1f" % read_temperature2()
 
 @app.route('/data')
 def data():
     return send_file('data.csv')
-    
+
+@app.route('/json')
+def create_json_resp():
+    resp={}
+    resp["in"]=read_temperature1()    
+    resp["out"]=read_temperature2()   
+    resp["cpu"]=read_cputemp()
+    return jsonify(resp)
+ 
 @app.route('/')
 def index():
     print "In method index()"

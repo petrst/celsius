@@ -16,6 +16,7 @@ LINE1:a#ff0000 LINE1:b#00ff00 LINE1:c#0000ff -g  --border 0 -m 2 \
 --disable-rrdtool-tag --x-grid DAY:1:HOUR:4:HOUR:4:0:%Hh00 --y-grid 2:1
 logger -t celsius "New graph created: $?"
 
+
 /opt/rrdtool-1.7.0/bin/rrdtool graph $GRAPH_PATH/temp7.png -r \
 DEF:a=/media/usb/celsius1.rrd:temp:AVERAGE:start=end-7d \
 DEF:b=/media/usb/celsius2.rrd:temp:AVERAGE:start=end-7d \
@@ -39,8 +40,11 @@ logger -t celsius "New graph created: $?"
 /opt/rrdtool-1.7.0/bin/rrdtool graph $GRAPH_PATH/temp1y.png -r \
 DEF:a=/media/usb/celsius1.rrd:temp:MAX:start=end-1y \
 DEF:b=/media/usb/celsius1.rrd:temp:AVERAGE:start=end-1y \
+CDEF:unavailable=a,UN,INF,0,IF \
 --title "LAST YEAR" \
-LINE1:a#ff0000  LINE1:b#00ff00  --slope-mode -g --border 0 -m 2 \
+LINE1:a#ff0000  LINE1:b#00ff00 \
+AREA:unavailable#d0d0d0 \
+ --slope-mode -g --border 0 -m 2 \
 -c BACK#f6f6f6 -c CANVAS#f6f6f6 -c ARROW#f6f6f6 -c GRID#d6d6d6 -c MGRID#b0b0b0 -c AXIS#d6d6d6 -c FONT#d0d0d0 \
 --disable-rrdtool-tag --x-grid MONTH:1:MONTH:1:MONTH:1:3000000:%b --y-grid 2:1 --start -1y
 logger -t celsius "New graph created: $?"
@@ -53,4 +57,22 @@ logger -t celsius "New graph created: $?"
 #--disable-rrdtool-tag \
 #--x-grid none --y-grid 1:1 -L 1 --start -1w \
 #--full-size-mode -w 84 -h 48
+
+#BACK_COLOR=f6f6f6ff
+BACK_COLOR=2a2a2aff
+GRID_COLOR=d3d4d4
+#FONT_COLOR=d00000
+FONT_COLOR=8b8b8b
+
+
+/opt/rrdtool-1.7.0/bin/rrdtool graph $GRAPH_PATH/tempfb.png -r \
+-w 700 -h 300 \
+DEF:a=/media/usb/celsius1.rrd:temp:AVERAGE:start=end-46h \
+DEF:b=/media/usb/celsius2.rrd:temp:AVERAGE:start=end-46h \
+DEF:c=/media/usb/celsius3.rrd:temp:AVERAGE:start=end-46h \
+LINE1:a#ff9900 LINE1:b#ccff99 LINE1:c#3399ff -g  --border 0 -m 2 \
+-c BACK#$BACK_COLOR -c CANVAS#$BACK_COLOR -c ARROW#$BACK_COLOR -c GRID#$GRID_COLOR -c MGRID#d0d6d6 -c AXIS#$GRID_COLOR -c FONT#$FONT_COLOR \
+-n AXIS:18 \
+--disable-rrdtool-tag --x-grid DAY:1:HOUR:4:HOUR:4:0:%Hh00 --y-grid 2:1
+logger -t celsius "New graph created: $?"
 
