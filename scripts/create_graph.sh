@@ -38,15 +38,15 @@ logger -t celsius "New graph created: $?"
 
 # LAST YEAR - only external temperature shown
 /opt/rrdtool-1.7.0/bin/rrdtool graph $GRAPH_PATH/temp1y.png -r \
-DEF:a=/media/usb/celsius1.rrd:temp:MAX:start=end-1y \
-DEF:b=/media/usb/celsius1.rrd:temp:AVERAGE:start=end-1y \
+DEF:a=/media/usb/celsius2.rrd:temp:MAX:start=end-1y \
+DEF:b=/media/usb/celsius2.rrd:temp:AVERAGE:start=end-1y \
 CDEF:unavailable=a,UN,INF,0,IF \
 --title "LAST YEAR" \
 LINE1:a#ff0000  LINE1:b#00ff00 \
 AREA:unavailable#d0d0d0 \
  --slope-mode -g --border 0 -m 2 \
 -c BACK#f6f6f6 -c CANVAS#f6f6f6 -c ARROW#f6f6f6 -c GRID#d6d6d6 -c MGRID#b0b0b0 -c AXIS#d6d6d6 -c FONT#d0d0d0 \
---disable-rrdtool-tag --x-grid MONTH:1:MONTH:1:MONTH:1:3000000:%b --y-grid 2:1 --start -1y
+--disable-rrdtool-tag --x-grid MONTH:1:MONTH:1:MONTH:1:3000000:%b --y-grid 4:1 --start -1y
 logger -t celsius "New graph created: $?"
 
 #rrdtool graph $GRAPH_PATH/temp_mini1.png -r \

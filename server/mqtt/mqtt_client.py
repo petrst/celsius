@@ -2,11 +2,19 @@ from syslog import syslog
 import paho.mqtt.client as mqtt
 from rrdtool import update as rrd_update
 
-TOPIC="home/temp"
+
+
+TOPIC="home/#"
 RRD_DB="/media/usb/celsius3.rrd"
 
-def update_rrd(value):
-    ret = rrd_update(RRD_DB, 'N:%s' % value);
+device_map= {
+    "home/temp" : "/media/usb/celsius3.rrd",
+    "home/rpitwo/cputemp" : "/media/usb/celsius5.rrd"
+}
+
+def update_rrd(rrdfile, value):
+    ret = rrd_update(rrdfile, 'N:%s' % value)
+    syslog("RRD error=",ret)
 
 def on_connect(client, userdata, flags, rc):
     syslog("Connected to MQTT broker with result code "+str(rc))
@@ -15,7 +23,12 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(TOPIC)
 
 def on_message(client, userdata, msg):
-    update_rrd(msg.payload)
+    if msg.topic in device_map:
+	syslog("Message in %s" % msg.topic)
+        rrdfile = device_map[msg.topic]
+	syslog("RRD file %s" % rrdfile)
+    	update_rrd(rrdfile, msg.payload)
+	syslog("RRD %s updated" % rrdfile)
 
 client=mqtt.Client()
 client.on_connect = on_connect

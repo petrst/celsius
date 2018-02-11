@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="icon" href="http://petr.sturc.cz/celsius/static/celsius.png" type="image/png"/>
-<link rel="shortcut icon" href="/celsius/static/celsius.ico"></link>
+
+<link rel="manifest" href="static/manifest.webmanifest">
+<link rel="icon" href="static/celsius.png" type="image/png"/>
+<link rel="shortcut icon" href="static/celsius.ico"></link>
 <style>
 @font-face {
     font-family: 'Raleway';
@@ -23,12 +25,14 @@ body {margin:0; font-family: 'Raleway', sans-serif;background: #f6f6f6;}
 img { max-width: 100%; max-height:100%; display:block; margin: 0 auto;}
 </style>
 </head>
-<body>
+<body onload="window.setInterval(function(){location.reload();},60000);">
+<div id="time"></div>
 <div id="temperature">T<sub>out</sub>={{temperature}} °C </div>
 <div id="graph" class="graph"><img src="static/temp.png"></div>
 <div id="graph7" class="graph"><img src="static/temp7.png"></div>
 <div id="graph1m" class="graph"><img src="static/temp1m.png"></div>
 <div id="graph1y" class="graph"><img src="static/temp1y.png"></div>
-<div id="footer"><span id="uptime">uptime {{uptime}}</span><span id="cputemp">CPU {{cputemp}}°C</span></div>
+<div id="footer"></div>
+<script src="site.js"></script>
 </body>
 </html>
