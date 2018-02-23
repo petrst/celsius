@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GRAPH_PATH=/home/pi/celsius/server/www/static
+GRAPH_PATH=/home/pi/celsius/pi/server/www/static
 
 BACK_COLOR=f6f6f6ff
 GRID_COLOR=a6a6a6

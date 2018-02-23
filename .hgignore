@@ -5,3 +5,4 @@ var
 tmp
 *.orig
 *_old.*
+server
