@@ -16,6 +16,15 @@ LINE1:a#ff0000 LINE1:b#00ff00 LINE1:c#0000ff -g  --border 0 -m 2 \
 --disable-rrdtool-tag --x-grid DAY:1:HOUR:4:HOUR:4:0:%Hh00 --y-grid 2:1
 logger -t celsius "New graph created: $?"
 
+/opt/rrdtool-1.7.0/bin/rrdtool graph $GRAPH_PATH/temp-cpu.png -r \
+DEF:a=/media/usb/celsius4.rrd:temp:AVERAGE:start=end-46h \
+DEF:b=/media/usb/celsius5.rrd:temp:AVERAGE:start=end-46h \
+--title "CPU LAST 24H" \
+LINE1:a#ff0000 LINE1:b#00ff00 -g  --border 0 -m 2 \
+-c BACK#$BACK_COLOR -c CANVAS#$BACK_COLOR -c ARROW#$BACK_COLOR -c GRID#$GRID_COLOR -c MGRID#d0d6d6 -c AXIS#$GRID_COLOR -c FONT#$FONT_COLOR \
+--disable-rrdtool-tag --x-grid DAY:1:HOUR:4:HOUR:4:0:%Hh00 --y-grid 2:1
+logger -t celsius "New graph created: $?"
+
 
 /opt/rrdtool-1.7.0/bin/rrdtool graph $GRAPH_PATH/temp7.png -r \
 DEF:a=/media/usb/celsius1.rrd:temp:AVERAGE:start=end-7d \

@@ -39,6 +39,9 @@ logger -t $SYSLOG_TAG "Received from $HOST: $temp"
 # find the 't=XXXXX' pattern and cut everything before 3rd character i.e. 't='
 temp=$( echo $temp | grep  -E -o ".{0,0}t=.{0,5}" | cut -c 3-)
 temp2=$( echo "scale=2; $temp / 1000.0" | bc)
+if [[ ! -n "$temp2" ]]; then
+  temp2="U"
+fi
 echo "$temp2" > /home/pi/celsius/var/actual_temp2
 logger -t $SYSLOG_TAG "Temperature at $HOST is $temp2"
 /opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius2.rrd N:$temp2
