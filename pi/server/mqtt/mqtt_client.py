@@ -8,8 +8,11 @@ TOPIC="home/#"
 RRD_DB="/media/usb/celsius3.rrd"
 
 device_map= {
-    "home/temp" : "/media/usb/celsius3.rrd",
-    "home/rpitwo/cputemp" : "/media/usb/celsius5.rrd"
+    "home/openelec/temp" : "/media/usb/celsius1.rrd",
+    "home/out"           : "/media/usb/celsius2.rrd",
+    "home/temp"          : "/media/usb/celsius3.rrd",
+    "home/rpione/cputemp": "/media/usb/celsius4.rrd",
+    "home/rpitwo/cputemp": "/media/usb/celsius5.rrd"
 }
 
 def update_rrd(rrdfile, value):

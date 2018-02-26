@@ -19,7 +19,8 @@ if [[ -z "${temp1// }" ]]; then
 fi
 echo "$temp1" > /home/pi/celsius/var/actual_temp
 logger -t $SYSLOG_TAG "Temperature at $HOST is $temp1"
-/opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius1.rrd N:$temp1
+#/opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius1.rrd N:$temp1
+mosquitto_pub -h localhost -t home/openelec/temp -m $temp1
 
 HOST=192.168.137.2
 #temp=$(ssh pi@$HOST 'tail -n 2 /home/pi/actual_temp')
@@ -44,7 +45,10 @@ if [[ ! -n "$temp2" ]]; then
 fi
 echo "$temp2" > /home/pi/celsius/var/actual_temp2
 logger -t $SYSLOG_TAG "Temperature at $HOST is $temp2"
-/opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius2.rrd N:$temp2
+#/opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius2.rrd N:$temp2
+mosquitto_pub -h localhost -t home/out -m $temp2
+
 
 cpu_temp=$( cat /home/pi/celsius/var/cpu_temp)
-/opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius4.rrd N:$cpu_temp
+#/opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius4.rrd N:$cpu_temp
+mosquitto_pub -h localhost -t home/rpione -m $cpu_temp
