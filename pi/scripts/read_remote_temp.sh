@@ -51,4 +51,4 @@ mosquitto_pub -h localhost -t home/out -m $temp2
 
 cpu_temp=$( cat /home/pi/celsius/var/cpu_temp)
 #/opt/rrdtool-1.7.0/bin/rrdtool update /media/usb/celsius4.rrd N:$cpu_temp
-mosquitto_pub -h localhost -t home/rpione -m $cpu_temp
+mosquitto_pub -h localhost -t home/rpione/cputemp -m $cpu_temp
