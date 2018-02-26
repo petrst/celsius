@@ -16,8 +16,11 @@ device_map= {
 }
 
 def update_rrd(rrdfile, value):
-    ret = rrd_update(rrdfile, 'N:%s' % value)
-    syslog("RRD error=",ret)
+    try:
+        ret = rrd_update(rrdfile, 'N:%s' % value)
+        #syslog("RRD error=",ret)
+    except:
+        syslog("Error when updating RRD")
 
 def on_connect(client, userdata, flags, rc):
     syslog("Connected to MQTT broker with result code "+str(rc))
