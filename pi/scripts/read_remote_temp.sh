@@ -11,7 +11,7 @@ if [[ -z "${temp// }" ]]; then
 	logger -t $SYSLOG_TAG "Received from $HOST: $temp"
 fi
 # find the 't=XXXXX' pattern and cut everything before 3rd character i.e. 't='
-temp=$( echo $temp | grep  -E -o ".{0,0}t=.{0,5}" | cut -c 3-)
+temp=$( echo $temp | grep  -E -o ".{0,0}t=-?.{0,5}" | cut -c 3-)
 temp1=$( echo "scale=2; $temp / 1000.0" | bc)
 logger -t $SYSLOG_TAG "Extracted value from $HOST: $temp1"
 if [[ -z "${temp1// }" ]]; then
@@ -38,7 +38,7 @@ HOST=192.168.2.23
 temp=$(ssh pi@$HOST 'cat /sys/bus/w1/devices/28-000007dd3a83/w1_slave' 2>&1)
 logger -t $SYSLOG_TAG "Received from $HOST: $temp"
 # find the 't=XXXXX' pattern and cut everything before 3rd character i.e. 't='
-temp=$( echo $temp | grep  -E -o ".{0,0}t=.{0,5}" | cut -c 3-)
+temp=$( echo $temp | grep  -E -o ".{0,0}t=-?.{0,5}" | cut -c 3-)
 temp2=$( echo "scale=2; $temp / 1000.0" | bc)
 if [[ ! -n "$temp2" ]]; then
   temp2="U"
